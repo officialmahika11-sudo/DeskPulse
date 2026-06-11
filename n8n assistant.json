@@ -1,0 +1,105 @@
+{
+  "name": "n8n assistant",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "assistant",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        16
+      ],
+      "id": "dfd4de41-9a1f-4be8-8dab-60f3e2cdc2e6",
+      "name": "Webhook",
+      "webhookId": "1bb0b955-d922-4e65-bba0-7c8f300e68ae"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://127.0.0.1:5000/assistant",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "command",
+              "value": "={{ $json.body.command }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        416,
+        16
+      ],
+      "id": "8791b582-3556-4016-a44d-f989f8ce9528",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "respondWith": "text",
+        "responseBody": "={{ $json.message }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        688,
+        32
+      ],
+      "id": "891cdc8d-922b-4aff-a818-018951df0805",
+      "name": "Respond to Webhook"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Respond to Webhook": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "81987998-3d10-4801-819e-5fa41a37be37",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "37316879fd6698a0bff6533405ed182b3aadf8e0e9835a2d2b6698b9d6c74bc1"
+  },
+  "nodeGroups": [],
+  "id": "UEsoKAqjvxFG7j6f",
+  "tags": []
+}

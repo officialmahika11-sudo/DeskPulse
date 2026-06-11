@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My n8n Assistant</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 600px;
+      margin: 50px auto;
+      background: #1a1a1a;
+      color: white;
+      padding: 20px;
+    }
+    h2 { color: #ff6b35; }
+    input {
+      width: 70%;
+      padding: 10px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: none;
+      margin-right: 10px;
+    }
+    button {
+      padding: 10px 20px;
+      background: #ff6b35;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    #result {
+      margin-top: 30px;
+      background: #2a2a2a;
+      padding: 20px;
+      border-radius: 10px;
+      font-size: 15px;
+      line-height: 1.6;
+      min-height: 50px;
+    }
+  </style>
+</head>
+<body>
+  <h2>🤖 My n8n Assistant</h2>
+  <input id="cmd" type="text" placeholder="Type: screen time OR notifications"/>
+  <button onclick="send()">Send</button>
+  <div id="result">Your answer will appear here...</div>
+
+  <script>
+    async function send() {
+      const cmd = document.getElementById('cmd').value;
+      document.getElementById('result').innerText = "⏳ Loading...";
+      try {
+        const res = await fetch('http://localhost:5678/webhook-test/assistant', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({ command: cmd })
+        });
+        const text = await res.text();
+        document.getElementById('result').innerText = text;
+      } catch(e) {
+        document.getElementById('result').innerText = "❌ Error: Make sure n8n is running!";
+      }
+    }
+
+    // Allow pressing Enter key to send
+    document.getElementById('cmd').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') send();
+    });
+  </script>
+</body>
+</html>
