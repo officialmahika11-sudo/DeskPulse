@@ -1,6 +1,9 @@
 # 🖥️ DeskPulse — Personal Desktop Assistant
 
 DeskPulse is a personal AI workflow built with **n8n** and **Python** that lets you monitor your desktop activity using simple text commands.
+## 🔄 Workflow Preview
+
+![DeskPulse n8n Workflow](workflow-screenshot.png)
 
 ## ✨ Features
 
